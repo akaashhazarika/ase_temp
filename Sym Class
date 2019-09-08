@@ -1,0 +1,28 @@
+import math
+class Sym(object):
+  def __init__(self):
+    self.mapp = { }
+    self.mode = None
+    self.mode_count = 0 
+    self.total = 0
+
+  def Sym1(self,val):
+    self.mapp[val] =self.mapp.get(val,0)+1
+    self.total+=1
+    if self.mapp[val]>self.mode_count:
+      self.mode_count = self.mapp[val]
+      self.mode = val
+
+  def SymEnt(self):
+    counter = 0
+    for key in self.mapp.keys():
+      p = self.mapp[key]/(self.total)
+      counter+= (-p*math.log(p)/math.log(2))
+    return counter
+
+sym_object = Sym()
+result = 'aaaabbc'
+
+for elem in result:
+  sym_object.Sym1(elem)
+print(sym_object.SymEnt())
