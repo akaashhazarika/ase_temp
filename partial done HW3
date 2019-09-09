@@ -1,0 +1,42 @@
+import collections
+class ABCD(object):
+  def __init__(self):
+    self.data = 'data'
+    self.yes = 0
+    self.no = 0
+    self.rx = 'rx'
+    self.a =  collections.defaultdict(int)
+    self.b =  collections.defaultdict(int)
+    self.c =  collections.defaultdict(int)
+    self.d =  collections.defaultdict(int)
+    self.itemslist = {}
+  def ABCD1(self, want, got, x):
+
+    if got not in self.itemslist:
+      self.itemslist[got] = 1
+      self.a[got] = self.yes+self.no
+      self.b[got] = 0
+      self.c[got] = 0
+      self.d[got] = 0
+    if want not in self.itemslist:
+      self.itemslist[want] = 1
+      self.a[want] = self.yes+self.no
+      self.b[want] = 0
+      self.c[want] = 0
+      self.d[want] = 0
+    if want!=got:
+      self.no+=1
+    else:
+      self.yes+=1
+
+    for elem in self.itemslist:
+      if want!=got:
+        if got==x:
+          self.c[x]+=1
+        else:
+          self.d[x]+=1
+      else:
+        if want==got:
+          self.d[x]+=1
+        else:
+          self.c[x]+=1
