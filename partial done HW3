@@ -10,17 +10,18 @@ class ABCD(object):
     self.c =  collections.defaultdict(int)
     self.d =  collections.defaultdict(int)
     self.itemslist = {}
-  def ABCD1(self, want, got, x):
+    self.total = 0
 
+  def ABCD1(self, want, got):
     if got not in self.itemslist:
       self.itemslist[got] = 1
-      self.a[got] = self.yes+self.no
+      self.a[got] = self.total
       self.b[got] = 0
       self.c[got] = 0
       self.d[got] = 0
     if want not in self.itemslist:
       self.itemslist[want] = 1
-      self.a[want] = self.yes+self.no
+      self.a[want] = self.total
       self.b[want] = 0
       self.c[want] = 0
       self.d[want] = 0
@@ -28,15 +29,54 @@ class ABCD(object):
       self.no+=1
     else:
       self.yes+=1
-
+    self.total = self.total+1
     for elem in self.itemslist:
-      if want!=got:
-        if got==x:
-          self.c[x]+=1
-        else:
-          self.d[x]+=1
-      else:
+      if want==elem:
         if want==got:
-          self.d[x]+=1
+          self.d[elem]+=1
         else:
-          self.c[x]+=1
+          self.b[elem]+=1
+      else:
+        if got==elem:
+          self.c[elem]+=1
+        else:
+          self.d[elem]+=1
+        
+
+  def ABCDReport(self):
+    print("db  |rx  |num  |a  |b  |c  |d  |acc  |pre  |pd  |pf  |f  |g  |class")
+    print('_'*68)
+    for item in self.itemslist.keys():
+       pd = pf = pn = prec = g = f = acc = 0
+       a = self.a[item]
+       b = self.b[item]
+       c = self.c[item]
+       d = self.d[item]
+       if b+d>0:
+         pd = d/(b+d)
+       if a+c>0:
+         pf = c/(a+c)
+       if a+c>0:
+         pn = (b+d)/(a+c)
+       if c+d>0:
+         prec = d/(c+d)
+       if 1-pf+pd > 0 :
+          g=2*(1-pf) * pd / (1-pf+pd) 
+       if prec+pd > 0 :
+          f=2*prec*pd / (prec + pd)   
+       if self.yes + self.no > 0 :
+        acc  = self.yes / (self.yes + self.no) 
+       print('data   |rx  |{}  |{}  |{}  |{}  |{}  |{}'
+              '|{}  |{}  |{}  |{}  |{}  |{}'.format(self.total,
+              a,b,c,d,acc,prec,pd, pf, f,  g,item))
+      
+
+new_object = ABCD()
+for i in range(6):
+  new_object.ABCD1("yes","yes")
+for i in range(2):
+  new_object.ABCD1("no","no")
+for i in range(5):
+  new_object.ABCD1("maybe", "maybe")
+new_object.ABCD1("maybe","no")
+new_object.ABCDReport()
