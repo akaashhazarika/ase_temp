@@ -25,10 +25,10 @@ class ABCD(object):
       self.b[want] = 0
       self.c[want] = 0
       self.d[want] = 0
-    if want!=got:
-      self.no+=1
-    else:
+    if want==got:
       self.yes+=1
+    else:
+      self.no+=1
     self.total = self.total+1
     for elem in self.itemslist:
       if want==elem:
@@ -40,7 +40,7 @@ class ABCD(object):
         if got==elem:
           self.c[elem]+=1
         else:
-          self.d[elem]+=1
+          self.a[elem]+=1
         
 
   def ABCDReport(self):
